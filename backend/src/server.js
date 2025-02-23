@@ -13,6 +13,9 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { typeDefs, resolvers } from "../graphql/schema.js";
 
+import passport from "passport";
+import configurePassport from "./config/passport.js";
+
 import { router as routes } from "./routes/index.js";
 
 dotenv.config();
@@ -34,18 +37,20 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   expressSession({
-    secret: process.env.SESSION_SECRET || "cs602-secret",
+    secret: process.env.SESSION_SECRET || "secret",
     resave: false,
     saveUninitialized: false,
   })
 );
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+configurePassport(passport);
+
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log("MongoDB connection error:", err));
 
