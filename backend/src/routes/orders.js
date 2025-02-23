@@ -1,7 +1,7 @@
 // routes/orders.js
 import express from "express";
-import Order from "../models/Order.js";
-import Product from "../models/Product.js";
+import { Order } from "../models/Order.js";
+import { Product } from "../models/Product.js";
 import {
   ensureAuthenticated,
   ensureAdmin,

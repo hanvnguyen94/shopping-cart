@@ -13,4 +13,4 @@ const OrderSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-export default Order = mongoose.model("Order", OrderSchema);
+export const Order = mongoose.model("Order", OrderSchema);

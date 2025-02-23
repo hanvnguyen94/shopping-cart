@@ -16,7 +16,7 @@ const UserSchema = new Schema({
     required: true,
   },
   role: {
-    type: Date,
+    type: String,
     enum: ["customer", "admin"],
     default: "customer",
   },
@@ -26,4 +26,4 @@ const UserSchema = new Schema({
   },
 });
 
-export default User = mongoose.model("User", UserSchema);
+export const User = mongoose.model("User", UserSchema);
