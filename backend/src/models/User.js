@@ -10,13 +10,14 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
     required: true,
   },
   role: {
-    type: Date,
+    type: String,
     enum: ["customer", "admin"],
     default: "customer",
   },
@@ -24,6 +25,10 @@ const UserSchema = new Schema({
     type: [Schema.Types.ObjectId],
     ref: "Order",
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-export default User = mongoose.model("User", UserSchema);
+export const User = mongoose.model("User", UserSchema);
