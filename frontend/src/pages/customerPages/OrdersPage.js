@@ -1,53 +1,68 @@
-import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
+import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext"; // adjust path if needed
 
 const OrdersPage = () => {
-//   const [orders, setOrders] = useState([]);
-//   const [loading, setLoading] = useState(true);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-//   // Fetch user's submitted orders from backend
-//   useEffect(() => {
-//     const fetchOrders = async () => {
-//       try {
-//         const response = await axios.get('http://localhost:5000/api/orders'); // Replace with actual API endpoint
-//         setOrders(response.data);
-//       } catch (error) {
-//         console.error('Error fetching orders:', error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
+  // If user is not authenticated, redirect to login.
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
 
-//     fetchOrders();
-//   }, []);
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/orders/myorders",
+          {
+            withCredentials: true,
+          }
+        );
+        setOrders(response.data);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-//   if (loading) {
-//     return <p>Loading orders...</p>;
-//   }
+    if (user) {
+      fetchOrders();
+    }
+  }, [user]);
+
+  if (loading) {
+    return <p>Loading orders...</p>;
+  }
 
   return (
     <div className="orders-page">
       <h2>Your Orders</h2>
-      {/* {orders.length === 0 ? (
+      {orders.length === 0 ? (
         <p>You have no orders yet.</p>
       ) : (
         <div className="orders-list">
           {orders.map((order) => (
             <div key={order._id} className="order-card">
               <h3>Order ID: {order._id}</h3>
-              <p>Status: {order.status}</p>
               <ul>
-                {order.items.map((item) => (
-                  <li key={item.productId}>
-                    {item.productName} - Quantity: {item.quantity}
+                {order.products.map((item, index) => (
+                  <li key={index}>
+                    {item.product.name} - Quantity: {item.quantity}
                   </li>
                 ))}
               </ul>
-              <p>Total Price: {order.totalPrice} VND</p>
             </div>
           ))}
         </div>
-      )} */}
+      )}
     </div>
   );
 };

@@ -1,28 +1,11 @@
 // src/components/Navbar.js
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import CartPopup from './CartPopup';
-import { FaShoppingCart } from 'react-icons/fa';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
+import { FaShoppingCart } from "react-icons/fa";
 
 const Navbar = () => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]); // Placeholder for cart items
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Mock login status for now
-
-  // Handle quantity change in the cart
-  const handleQuantityChange = (productId, quantity) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item._id === productId ? { ...item, quantity } : item
-      )
-    );
-  };
-
-  // Submit order
-  const handleSubmitOrder = () => {
-    console.log('Order submitted:', cartItems);
-    setIsCartOpen(false);
-  };
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <nav className="navbar">
@@ -30,39 +13,36 @@ const Navbar = () => {
         <Link to="/">Shopping Cart</Link>
       </div>
 
-
-      {/* Hiển thị my orders sau khi đăng nhập */}
       <div className="navbar-links">
-        {!isLoggedIn ? (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </>
+        {user ? (
+          <ul className="nav-list">
+            <li>Welcome, {user.name}</li>
+            <li>
+              <Link to="/account">Account</Link>
+            </li>
+            <li>
+              <Link to="/orders">My Orders</Link>
+            </li>
+            <li>
+              <Link to="/cart">
+                <FaShoppingCart className="cart-icon" />
+              </Link>
+            </li>
+            <li>
+              <button onClick={logout}>Logout</button>
+            </li>
+          </ul>
         ) : (
-          <>
-            <Link to="/">Home</Link> {/* Link to HomePage */}          
-            <Link to="/orders">My Orders</Link> {/* Link to OrdersPage */}
-            <button onClick={() => setIsLoggedIn(false)}>Logout</button> {/* Mock logout */}
-          </>
+          <ul className="nav-list">
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+            <li>
+              <Link to="/register">Register</Link>
+            </li>
+          </ul>
         )}
-
-        <FaShoppingCart
-          className="cart-icon"
-          onClick={() => setIsCartOpen(true)}
-        />
       </div>
-
-
-      {/* Mở popup sau khi bấm vào icon cart */}
-      {isCartOpen && (
-        <CartPopup
-          cartItems={cartItems}
-          onClose={() => setIsCartOpen(false)}
-          onQuantityChange={handleQuantityChange}
-          onSubmitOrder={handleSubmitOrder}
-        />
-      )}
-
     </nav>
   );
 };

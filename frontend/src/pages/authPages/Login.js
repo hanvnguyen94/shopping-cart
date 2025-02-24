@@ -1,12 +1,32 @@
-import React, { useState } from 'react';
+// src/pages/authPages/Login.js
+import React, { useState, useContext } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Logging in with:', { email, password });
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        { email, password },
+        { withCredentials: true }
+      );
+      console.log("Logged in:", response.data);
+      // Assume the response contains a user object
+      const userData = response.data.user || response.data;
+      login(userData);
+      navigate("/");
+    } catch (error) {
+      console.error("Login error:", error.response?.data || error.message);
+      alert("Login failed. Please check your credentials and try again.");
+    }
   };
 
   return (
