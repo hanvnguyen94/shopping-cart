@@ -10,6 +10,7 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
@@ -23,6 +24,10 @@ const UserSchema = new Schema({
   orders: {
     type: [Schema.Types.ObjectId],
     ref: "Order",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 

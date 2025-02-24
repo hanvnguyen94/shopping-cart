@@ -30,8 +30,8 @@ app.use(
 );
 
 // Parse URL-encoded bodies and JSON payloads
-app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Cookie parser and session middleware
 app.use(cookieParser());
