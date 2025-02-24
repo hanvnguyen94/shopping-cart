@@ -59,6 +59,24 @@ async function seedProducts() {
         price: 99.99,
         quantity: 40,
       },
+      {
+        name: "Portable SSD",
+        description: "Fast and compact SSD with 1TB capacity.",
+        price: 129.99,
+        quantity: 60,
+      },
+      {
+        name: "Gaming Chair",
+        description: "Ergonomic chair designed for long gaming sessions.",
+        price: 199.99,
+        quantity: 20,
+      },
+      {
+        name: "Smartwatch",
+        description: "Feature-packed smartwatch with fitness tracking.",
+        price: 149.99,
+        quantity: 80,
+      },
     ];
 
     await Product.insertMany(products);
