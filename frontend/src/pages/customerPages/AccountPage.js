@@ -1,41 +1,62 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext"; // adjust path if needed
+
 
 const AccountPage = () => {
-  const [user, setUser] = useState(null);
+  const { user } = useContext(AuthContext);
+  const [info, setInfo] = useState([]);
   const navigate = useNavigate();
 
+  
+  // If user is not authenticated, redirect to login.
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/auth/me", { withCredentials: true })
-      .then((res) => setUser(res.data))
-      .catch((error) => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
+  useEffect(() => {
+    const fetchAccount = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/auth/me",
+          {
+            withCredentials: true,
+          }
+        );
+        setInfo(response.data);
+      } catch (error) {
         console.error("Error fetching account info:", error);
-        // if not logged in, redirect
-        navigate("/login");
-      });
-  }, [navigate]);
+      }
+    };
+
+    if (user) {
+      fetchAccount();
+    }
+  }, [user]);
+
 
   if (!user) {
     return <p>Loading account info...</p>;
   }
 
-  const formattedDate = user.createdAt
-    ? new Date(user.createdAt).toLocaleDateString()
+  const formattedDate = info.createdAt
+    ? new Date(info.createdAt).toLocaleDateString()
     : null;
 
   return (
     <div className="account-page">
       <h2>Account Information</h2>
       <p>
-        <strong>Name:</strong> {user.name}
+        <strong>Name:</strong> {info.name}
       </p>
       <p>
-        <strong>Email:</strong> {user.email}
+        <strong>Email:</strong> {info.email}
       </p>
       <p>
-        <strong>Role:</strong> {user.role}
+        <strong>Role:</strong> {info.role}
       </p>
       {formattedDate && (
         <p>

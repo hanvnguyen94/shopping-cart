@@ -12,7 +12,7 @@ const OrdersPage = () => {
   // If user is not authenticated, redirect to login.
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/");
     }
   }, [user, navigate]);
 
