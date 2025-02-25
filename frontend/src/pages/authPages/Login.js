@@ -22,7 +22,15 @@ const Login = () => {
       // Assume the response contains a user object
       const userData = response.data.user || response.data;
       login(userData);
-      navigate("/");
+
+      // Navigate based on user role
+      if (userData.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+
+      //navigate("/");
     } catch (error) {
       console.error("Login error:", error.response?.data || error.message);
       alert("Login failed. Please check your credentials and try again.");

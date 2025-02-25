@@ -69,6 +69,7 @@ const HomePage = () => {
             key={product._id}
             product={product}
             onAddToCart={handleAddToCart}
+            role = "customer"
           />
         ))}
       </div>

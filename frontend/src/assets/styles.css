@@ -199,34 +199,6 @@
   margin-bottom: 5px;
 }
 
-.customer-list-page {
-  padding: 20px;
-  text-align: center;
-}
-
-.customer-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.customer-card {
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.customer-card:hover {
-  transform: scale(1.05);
-}
-
-.customer-card h3 {
-  margin-bottom: 10px;
-}
-
 .customer-orders-page {
   padding: 20px;
   text-align: center;
@@ -256,4 +228,49 @@
 
 .order-card li {
   margin-bottom: 5px;
+}
+
+/* Customer card */
+.customer-list-page {
+  padding: 20px;
+  text-align: center;
+}
+
+.customer-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 15px;
+  text-align: left;
+}
+
+.customer-card {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  /* transition: transform 0.2s; */
+}
+
+/* .customer-card:hover {
+  transform: scale(1.05);
+} */
+
+.customer-card h3 {
+  margin-bottom: 10px;
+}
+
+.admin-actions button {
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.admin-actions button:hover {
+  background-color: #0056b3;
 }
