@@ -57,23 +57,30 @@ mongoose
 // Mount REST routes from  routes index
 app.use("/", routes);
 
+
+// Setup ApolloServer and integrate with Express at /graphql
+async function startServer() {
+  const apolloServer = new ApolloServer({ typeDefs, resolvers });
+  await apolloServer.start(); // top-level await is allowed in ES modules
+
+  app.use(
+    "/graphql",
+    bodyParser.json(),
+    expressMiddleware(apolloServer, {
+      context: async ({ req, res }) => ({ req, res }),
+    })
+  );
+}
+await startServer();
+
+
 // 404 handler for unmatched routes (REST)
 app.use((req, res) => {
   res.status(404);
-  res.render("404");
+  // res.render("404");
+  res.status(404).json({ error: "Page not found" });
 });
 
-// Setup ApolloServer and integrate with Express at /graphql
-const apolloServer = new ApolloServer({ typeDefs, resolvers });
-await apolloServer.start(); // top-level await is allowed in ES modules
-
-app.use(
-  "/graphql",
-  bodyParser.json(),
-  expressMiddleware(apolloServer, {
-    context: async ({ req, res }) => ({ req, res }),
-  })
-);
 
 // Start the Express server on the specified port
 const PORT = process.env.PORT || 5000;

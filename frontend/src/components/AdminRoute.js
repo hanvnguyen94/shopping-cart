@@ -9,12 +9,12 @@ const AdminRoute = ({ children }) => {
 
   // If user is still null, we're likely still loading from localStorage.
   // Show a simple "Loading..." message (or a spinner).
-  if (user === null) {
-    return <p>Loading...</p>;
-  }
+  // if (user === null) {
+  //   return <p>Loading...</p>;
+  // }
 
   // Now if we do have a user object, but the role isn't admin, redirect.
-  if (user.role !== "admin") {
+  if (user === null || user.role !== "admin") {
     return <Navigate to="/" replace />;
   }
 

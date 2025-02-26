@@ -29,8 +29,7 @@ const Login = () => {
       } else {
         navigate("/");
       }
-
-      //navigate("/");
+      
     } catch (error) {
       console.error("Login error:", error.response?.data || error.message);
       alert("Login failed. Please check your credentials and try again.");

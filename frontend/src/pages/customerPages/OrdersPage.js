@@ -1,10 +1,21 @@
 // src/pages/customerPages/OrdersPage.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext"; // adjust path if needed
 
 const OrdersPage = () => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // If user is not authenticated, redirect to login.
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   useEffect(() => {
     const fetchOrders = async () => {
