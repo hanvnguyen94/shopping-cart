@@ -62,12 +62,45 @@ const HomePage = () => {
         const response = await axios.get("http://localhost:5000/api/products");
         setProducts(response.data);
         setFilteredProducts(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
+
     fetchProducts();
+
+
+    const fetchProducts222 = async () => {
+      try {
+        const response = await axios.post("http://localhost:5000/graphql", {
+          query: `
+            query {
+              products {
+                name
+                price
+              }
+            }
+          `
+        })
+        .then(response => {
+          if (response.data.errors) {
+            console.error("❌ GraphQL Error:", response.data.errors);
+          } else {
+            setProducts(response.data.data.products);
+            setFilteredProducts(response.data.data.products);
+            console.log("✅ Data received:", response.data.data.products);
+          }
+        })
+      } catch (error) {
+        console.error("!!!!!!Error fetching data:", error);
+      }
+    };
+    
+    fetchProducts222();
+
   }, []);
+
 
   useEffect(() => {
     const results = products.filter(
@@ -96,7 +129,7 @@ const HomePage = () => {
             product={product}
             onAddToCart={handleAddToCart}
           />
-        ))}
+        ))} 
       </div>
     </div>
   );

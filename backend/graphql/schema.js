@@ -2,6 +2,7 @@
 
 import { Product } from "../src/models/Product.js";
 
+
 export const typeDefs = `#graphql
   type Product {
     id: ID!
@@ -29,8 +30,13 @@ export const resolvers = {
   Query: {
     products: async () => {
       try {
-        return await Product.find();
+        const products = await Product.find();
+        console.log("Fetched Products:", products); // 👈 Kiểm tra dữ liệu có từ DB không
+        return products;
+        // return await Product.find();
       } catch (error) {
+        // throw new Error(error);
+        console.error("???? Heyyyy Error fetching products:", error);
         throw new Error(error);
       }
     },
