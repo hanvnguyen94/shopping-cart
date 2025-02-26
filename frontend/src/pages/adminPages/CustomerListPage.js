@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext"; // adjust path if needed
 import CustomerCard from "../../components/CustomerCard";
-
+import "../../assets/CustomerAdminStyles.css";
 
 const CustomerListPage = () => {
   const { user } = useContext(AuthContext);
@@ -45,7 +45,9 @@ const CustomerListPage = () => {
             key={customer._id}
             customer={customer}
             role="admin"
-            onSelect={(selectedCustomer) => console.log("Selected:", selectedCustomer)}
+            onSelect={(selectedCustomer) =>
+              console.log("Selected:", selectedCustomer)
+            }
           />
         ))}
       </div>

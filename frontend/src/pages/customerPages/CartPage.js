@@ -2,13 +2,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext"; // adjust path if needed
+import { AuthContext } from "../../contexts/AuthContext";
+import "../../assets/Cart.css";
 
 const CartPage = () => {
   const { user } = useContext(AuthContext);
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
-
 
   // If user is not authenticated, redirect to login.
   useEffect(() => {
@@ -16,7 +16,6 @@ const CartPage = () => {
       navigate("/");
     }
   }, [user, navigate]);
-
 
   // Load cart items from localStorage when the component mounts
   useEffect(() => {
@@ -89,8 +88,8 @@ const CartPage = () => {
           <ul>
             {cartItems.map((item) => (
               <li key={item._id} className="cart-item">
-                <span>{item.name}</span> -
-                <span> Price: ${item.price.toFixed(2)}</span> -
+                <span>{item.name}</span>
+                <span> Price: ${item.price.toFixed(2)}</span>
                 <span> Quantity: </span>
                 <input
                   type="number"
