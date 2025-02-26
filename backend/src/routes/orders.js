@@ -1,7 +1,7 @@
 // routes/orders.js
 import express from "express";
-import { Order } from "../models/Order.js";
-import { Product } from "../models/Product.js";
+import { Order } from "../models/Order.js"; // assuming default export
+import { Product } from "../models/Product.js"; // assuming default export
 import {
   ensureAuthenticated,
   ensureAdmin,
@@ -41,7 +41,7 @@ router.get("/myorders", ensureAuthenticated, async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id }).populate(
       "products.product"
-    );
+    ); // populate the product reference
     res.json(orders);
   } catch (err) {
     res.status(500).json({ error: err.message });

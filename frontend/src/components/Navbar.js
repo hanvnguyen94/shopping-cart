@@ -14,24 +14,44 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-links">
-        {user ? (
-          <ul className="nav-list">
-            <li>Welcome, {user.name}</li>
-            <li>
-              <Link to="/account">Account</Link>
-            </li>
-            <li>
-              <Link to="/orders">My Orders</Link>
-            </li>
-            <li>
-              <Link to="/cart">
-                <FaShoppingCart className="cart-icon" />
-              </Link>
-            </li>
-            <li>
-              <button onClick={logout}>Logout</button>
-            </li>
-          </ul>
+      {user ? (
+        <ul className="nav-list">
+          <li>Welcome, {user.name}</li>
+
+          {/* If user is a customer */}
+          {user.role === "customer" && (
+            <>
+              <li>
+                <Link to="/account">Account</Link>
+              </li>
+              <li>
+                <Link to="/orders">My Orders</Link>
+              </li>
+              <li>
+                <Link to="/cart">
+                  <FaShoppingCart className="cart-icon" />
+                </Link>
+              </li>
+            </>
+          )}
+
+          {/* If user is an admin */}
+          {user.role === "admin" && (
+            <>
+              <li>
+                <Link to="/admin/products">Manage Products</Link>
+              </li>
+              <li>
+                <Link to="/admin/customers">Customer List</Link>
+              </li>
+            </>
+          )}
+
+          {/* Logout button available for both roles */}
+          <li>
+            <button onClick={logout}>Logout</button>
+          </li>
+        </ul>
         ) : (
           <ul className="nav-list">
             <li>

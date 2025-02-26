@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductCard from "../../components/ProductCard";
+import "../../assets/HomePage.css";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -12,14 +13,39 @@ const HomePage = () => {
   const isUserLoggedIn = !!localStorage.getItem("user");
 
   const handleAddToCart = (product, quantity) => {
+    // Check if the product is available
+    if (product.quantity < 1) {
+      alert("This product is out of stock.");
+      return;
+    }
     if (!isUserLoggedIn) {
       alert("Please login to add item to cart.");
     } else {
-      // Retrieve current cart from localStorage, or default to empty array
-      const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
+      // Check if the quantity the customer wants to add is available
+      // If the product is already in the cart, include its current quantity
+      let currentCart = [];
+      try {
+        const storedCart = localStorage.getItem("cart");
+        currentCart = storedCart ? JSON.parse(storedCart) : [];
+      } catch (e) {
+        console.error(
+          "Error parsing cart from localStorage. Resetting cart.",
+          e
+        );
+        currentCart = [];
+      }
 
-      // Check if product already exists in cart
       const existingItem = currentCart.find((item) => item._id === product._id);
+      const alreadyInCart = existingItem ? existingItem.quantity : 0;
+      const totalDesired = alreadyInCart + quantity;
+
+      if (totalDesired > product.quantity) {
+        alert(
+          `You are trying to add ${totalDesired} items, but only ${product.quantity} are available.`
+        );
+        return;
+      }
+
       if (existingItem) {
         existingItem.quantity += quantity;
       } else {

@@ -10,6 +10,11 @@ const OrderSchema = new Schema({
       quantity: { type: Number, required: true },
     },
   ],
+  status: {
+    type: String,
+    enum: ["Pending", "Confirmed", "Shipped", "Delivered", "Cancelled"],
+    default: "Pending",
+  },
   createdAt: { type: Date, default: Date.now },
 });
 

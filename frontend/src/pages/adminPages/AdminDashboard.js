@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const AdminDashboard = () => {
   return (
-    <div>
+    <div className="admin-dashboard-container">
       <h2>Admin Dashboard</h2>
       <ul>
         <li>

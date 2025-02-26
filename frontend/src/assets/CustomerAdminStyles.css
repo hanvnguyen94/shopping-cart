@@ -1,0 +1,159 @@
+/* Customer List Page Styles */
+.customer-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+}
+
+.customer-list-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Each customer card */
+.customer-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.customer-card:hover {
+  transform: scale(1.02);
+}
+
+.customer-card h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.customer-card p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.customer-card .admin-actions {
+  margin-top: 10px;
+}
+
+.customer-card .admin-actions button {
+  padding: 8px 12px;
+  margin-right: 8px;
+  border: none;
+  border-radius: 3px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.customer-card .admin-actions button:hover {
+  opacity: 0.9;
+}
+
+/* Customer Orders Page Styles */
+.customer-orders-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+}
+
+.customer-orders-page h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Each order card */
+.order-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.order-card h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.order-card p {
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Order list (products inside an order) */
+.order-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.order-card ul li {
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* Order actions (update, delete) */
+.order-actions {
+  margin-top: 10px;
+}
+
+.order-actions button {
+  padding: 8px 12px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 3px;
+  background-color: #28a745;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.order-actions button:hover {
+  opacity: 0.9;
+}
+
+/* Order edit form styling */
+.order-edit {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.order-edit label {
+  font-weight: bold;
+}
+
+.order-edit select {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.order-edit button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 3px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.order-edit button:hover {
+  opacity: 0.9;
+}

@@ -31,10 +31,9 @@ router.get("/:id", async (req, res) => {
 // Create a product (admin only)
 router.post("/", ensureAuthenticated, ensureAdmin, async (req, res) => {
   try {
-    const { name, description, price, quantity } = req.body;
-    const product = new Product({ name, description, price, quantity });
-    await product.save();
-    res.json(product);
+    const newProduct = new Product(req.body);
+    await newProduct.save();
+    res.status(201).json(newProduct);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
