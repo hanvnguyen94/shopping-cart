@@ -8,10 +8,22 @@ import {
 
 const router = express.Router();
 
-// Get all products
+// GET /api/products
+// Supports optional query parameters: name, minPrice, maxPrice
 router.get("/", async (req, res) => {
   try {
-    const products = await Product.find();
+    const { name, minPrice, maxPrice } = req.query;
+    let filter = {};
+
+    if (name) {
+      filter.name = { $regex: name, $options: "i" }; // case-insensitive matching
+    }
+
+    if (minPrice && maxPrice) {
+      filter.price = { $gte: Number(minPrice), $lte: Number(maxPrice) };
+    }
+
+    const products = await Product.find(filter);
     res.json(products);
   } catch (err) {
     res.status(500).json({ error: err.message });

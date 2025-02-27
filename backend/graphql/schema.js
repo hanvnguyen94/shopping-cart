@@ -1,7 +1,28 @@
 // graphql/schema.js
-
+import {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLFloat,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLSchema,
+  GraphQLID,
+} from "graphql";
 import { Product } from "../src/models/Product.js";
 
+const ProductType = new GraphQLObjectType({
+  name: "Product",
+  fields: () => ({
+    id: {
+      type: GraphQLID,
+      resolve: (parent) => parent._id.toString(), // Map _id to id
+    },
+    name: { type: GraphQLString },
+    description: { type: GraphQLString },
+    price: { type: GraphQLFloat },
+    quantity: { type: GraphQLInt },
+  }),
+});
 
 export const typeDefs = `#graphql
   type Product {
@@ -31,12 +52,10 @@ export const resolvers = {
     products: async () => {
       try {
         const products = await Product.find();
-        console.log("Fetched Products:", products); // 👈 Kiểm tra dữ liệu có từ DB không
+        console.log("Fetched Products:", products);
         return products;
-        // return await Product.find();
       } catch (error) {
-        // throw new Error(error);
-        console.error("???? Heyyyy Error fetching products:", error);
+        console.error("Error fetching products:", error);
         throw new Error(error);
       }
     },
@@ -94,3 +113,66 @@ export const resolvers = {
     },
   },
 };
+
+export default new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: "RootQueryType",
+    fields: {
+      products: {
+        type: new GraphQLList(ProductType),
+        resolve: resolvers.Query.products,
+      },
+      product: {
+        type: ProductType,
+        args: { id: { type: GraphQLID } },
+        resolve: resolvers.Query.product,
+      },
+      productByName: {
+        type: new GraphQLList(ProductType),
+        args: { name: { type: GraphQLString } },
+        resolve: resolvers.Query.productByName,
+      },
+      productsByPrice: {
+        type: new GraphQLList(ProductType),
+        args: {
+          minPrice: { type: GraphQLFloat },
+          maxPrice: { type: GraphQLFloat },
+        },
+        resolve: resolvers.Query.productsByPrice,
+      },
+    },
+  }),
+  mutation: new GraphQLObjectType({
+    name: "Mutation",
+    fields: {
+      addProduct: {
+        type: ProductType,
+        args: {
+          name: { type: GraphQLString },
+          description: { type: GraphQLString },
+          price: { type: GraphQLFloat },
+          quantity: { type: GraphQLInt },
+        },
+        resolve: resolvers.Mutation.addProduct,
+      },
+      updateProduct: {
+        type: ProductType,
+        args: {
+          id: { type: GraphQLID },
+          name: { type: GraphQLString },
+          description: { type: GraphQLString },
+          price: { type: GraphQLFloat },
+          quantity: { type: GraphQLInt },
+        },
+        resolve: resolvers.Mutation.updateProduct,
+      },
+      deleteProduct: {
+        type: ProductType,
+        args: {
+          id: { type: GraphQLID },
+        },
+        resolve: resolvers.Mutation.deleteProduct,
+      },
+    },
+  }),
+});
